@@ -20,7 +20,7 @@ def get_db():
 
 
 @router.post("/")
-def create_user(user: UserCreate, db: Session = Depends(get_db)):
+def create_user(user: UserCreate, db: Session = Depends(get_db), current_user: User = Depends(role_dependency("ADMIN"))):
     existing = db.query(User).filter(User.email == user.email).first()
     if existing:
         raise HTTPException(status_code=400, detail="Email déjà utilisé")
