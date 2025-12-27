@@ -1,12 +1,64 @@
-from sqlalchemy import Column, Integer, String, Float, ForeignKey
-from database import Base
+from sqlalchemy import Column, Integer, String, Float, Enum, ForeignKey, Date, TIMESTAMP
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.orm import relationship
+import enum
+
+Base = declarative_base()
+
+class RoleEnum(str, enum.Enum):
+    ADMIN = "ADMIN"
+    MANAGER = "MANAGER"
+    EMPLOYEE = "EMPLOYEE"
+
+class User(Base):
+    __tablename__ = "users"
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(100), nullable=False)
+    email = Column(String(100), nullable=False, unique=True)
+    password = Column(String(255), nullable=False)
+    role = Column(Enum(RoleEnum), nullable=False)
+
+class Category(Base):
+    __tablename__ = "categories"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+
+class Supplier(Base):
+    __tablename__ = "suppliers"
+    id = Column(Integer, primary_key=True)
+    name = Column(String(100), nullable=False)
+    phone = Column(String(20))
+    email = Column(String(100))
 
 class Product(Base):
     __tablename__ = "products"
-
     id = Column(Integer, primary_key=True)
-    name = Column(String(150))
-    price = Column(Float)
-    quantity = Column(Integer)
+    name = Column(String(150), nullable=False)
+    price = Column(Float, nullable=False)
+    quantity = Column(Integer, nullable=False)
     category_id = Column(Integer, ForeignKey("categories.id"))
     supplier_id = Column(Integer, ForeignKey("suppliers.id"))
+
+class OrderStatus(str, enum.Enum):
+    PENDING = "PENDING"
+    COMPLETED = "COMPLETED"
+    CANCELLED = "CANCELLED"
+
+class Order(Base):
+    __tablename__ = "orders"
+    id = Column(Integer, primary_key=True)
+    product_id = Column(Integer, ForeignKey("products.id"))
+    quantity = Column(Integer, nullable=False)
+    status = Column(Enum(OrderStatus), default=OrderStatus.PENDING)
+    order_date = Column(Date)
+
+class StockType(str, enum.Enum):
+    IN = "IN"
+    OUT = "OUT"
+
+class StockMovement(Base):
+    __tablename__ = "stock_movements"
+    id = Column(Integer, primary_key=True)
+    product_id = Column(Integer, ForeignKey("products.id"))
+    type = Column(Enum(StockType), nullable=False)
+    quantity = Column(Integer, nullable=False)
