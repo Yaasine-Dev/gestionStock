@@ -40,6 +40,8 @@ def create_user(user: UserCreate, db: Session = Depends(get_db), current_user: U
 @router.get("/", response_model=List[UserOut])
 def list_users(db: Session = Depends(get_db), current_user: User = Depends(role_dependency(["ADMIN", "MANAGER"]))):
     users = db.query(User).all()
+    if not users:
+        raise HTTPException(status_code=404, detail="Aucun utilisateur trouvé")
     return users
 
 

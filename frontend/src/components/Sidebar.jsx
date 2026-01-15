@@ -1,71 +1,197 @@
+// src/components/Sidebar.jsx
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { useAuth } from "../contexts/AuthContext";
+import { 
+  FaBars, FaTachometerAlt, 
+  FaBox, FaUsers, FaTags, FaTruck, 
+  FaClipboardList, FaWarehouse, FaUser, FaSignOutAlt
+} from 'react-icons/fa';
 
 const MENUS = {
   ADMIN: [
-    { label: "Tableau de bord", path: "/dashboard/admin", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
-    { label: "Utilisateurs", path: "/users", icon: "M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" },
-    { label: "Produits", path: "/products", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" },
-    { label: "Catégories", path: "/categories", icon: "M7 7h.01M7 3h5c.512 0 1.024.195 1.414.586l7 7a2 2 0 010 2.828l-7 7a2 2 0 01-2.828 0l-7-7A1.994 1.994 0 013 12V7a4 4 0 014-4z" },
-    { label: "Fournisseurs", path: "/suppliers", icon: "M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" },
-    { label: "Commandes", path: "/orders", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" },
-    { label: "Stock", path: "/stock", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" },
+    { 
+      title: "Principal",
+      items: [
+        { label: "Tableau de bord", path: "/dashboard/admin", icon: FaTachometerAlt },
+      ]
+    },
+    { 
+      title: "Gestion",
+      items: [
+        { label: "Utilisateurs", path: "/users", icon: FaUsers },
+        { label: "Produits", path: "/products", icon: FaBox },
+        { label: "Catégories", path: "/categories", icon: FaTags },
+        { label: "Fournisseurs", path: "/suppliers", icon: FaTruck },
+      ]
+    },
+    { 
+      title: "Opérations",
+      items: [
+        { label: "Commandes", path: "/orders", icon: FaClipboardList },
+        { label: "Stock", path: "/stock", icon: FaWarehouse },
+      ]
+    },
   ],
   MANAGER: [
-    { label: "Tableau de bord", path: "/dashboard/manager", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
-    { label: "Produits", path: "/products", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" },
-    { label: "Commandes", path: "/orders", icon: "M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" },
-    { label: "Stock", path: "/stock", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" },
+    { 
+      title: "Principal",
+      items: [
+        { label: "Tableau de bord", path: "/dashboard/manager", icon: FaTachometerAlt },
+      ]
+    },
+    { 
+      title: "Gestion",
+      items: [
+        { label: "Produits", path: "/products", icon: FaBox },
+        { label: "Commandes", path: "/orders", icon: FaClipboardList },
+        { label: "Stock", path: "/stock", icon: FaWarehouse },
+      ]
+    },
   ],
   EMPLOYEE: [
-    { label: "Tableau de bord", path: "/dashboard/employee", icon: "M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" },
-    { label: "Produits", path: "/products", icon: "M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" },
-    { label: "Stock", path: "/stock", icon: "M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" },
+    { 
+      title: "Principal",
+      items: [
+        { label: "Tableau de bord", path: "/dashboard/employee", icon: FaTachometerAlt },
+      ]
+    },
+    { 
+      title: "Gestion",
+      items: [
+        { label: "Produits", path: "/products", icon: FaBox },
+        { label: "Stock", path: "/stock", icon: FaWarehouse },
+      ]
+    },
   ],
 };
 
-export default function Sidebar() {
-  const { role } = useAuth() || {};
+export default function Sidebar({ isOpen, onToggle }) {
+  const { role, user, logout } = useAuth() || {};
   const location = useLocation();
-  const items = MENUS[role] || [];
+  const menuSections = MENUS[role] || [];
 
   return (
-    <aside className="w-64 bg-white shadow-sm border-r border-gray-200 min-h-[calc(100vh-4rem)]">
-      <nav className="p-4">
-        <ul className="space-y-1">
-          {items.map((item) => {
-            const isActive = location.pathname === item.path;
-            return (
-              <li key={item.path}>
-                <Link
-                  to={item.path}
-                  className={`flex items-center space-x-3 px-4 py-3 rounded-lg transition-colors ${
-                    isActive
-                      ? "bg-indigo-50 text-indigo-700 font-medium"
-                      : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
-                  }`}
-                >
-                  <svg
-                    className={`w-5 h-5 ${isActive ? "text-indigo-600" : "text-gray-500"}`}
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d={item.icon}
-                    />
-                  </svg>
-                  <span>{item.label}</span>
-                </Link>
-              </li>
-            );
-          })}
-        </ul>
+    <aside className={`fixed left-0 top-0 z-50 h-screen border-r border-slate-200 bg-white transition-all duration-300 ease-in-out ${
+      isOpen ? 'w-64' : 'w-20'
+    }`}>
+      <div className={`flex h-16 items-center border-b border-slate-200 px-4 ${
+        isOpen ? 'justify-between' : 'justify-center'
+      }`}>
+        {isOpen ? (
+          <>
+            <div className="flex items-center gap-3">
+              <img 
+                src="/logo.png" 
+                alt="Logo" 
+                className="h-9 w-9 rounded-lg shadow-sm object-contain"
+              />
+              <div>
+                <h2 className="text-base font-bold text-slate-900">StockFlow</h2>
+                <p className="text-xs text-slate-500">Stock Management sys</p>
+              </div>
+            </div>
+            <button 
+              onClick={onToggle}
+              className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+              <FaBars className="h-4 w-4" />
+            </button>
+          </>
+        ) : (
+          <button 
+            onClick={onToggle}
+            className="rounded-lg p-2 text-slate-400 transition-colors hover:bg-slate-100 hover:text-slate-600 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          >
+            <FaBars className="h-4 w-4" />
+          </button>
+        )}
+      </div>
+      
+      {isOpen && (
+        <div className="border-b border-slate-200 p-4">
+          <div className="flex items-center gap-3 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 p-3">
+            <div className="flex h-10 w-10 flex-shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-blue-500 to-blue-600 ring-2 ring-white shadow-sm">
+              <FaUser className="text-sm text-white" />
+            </div>
+            <div className="min-w-0 flex-1">
+              <p className="truncate text-sm font-semibold text-slate-900">{user?.name || 'User'}</p>
+              <p className="text-xs text-slate-500">{user?.role || 'Role'}</p>
+            </div>
+          </div>
+        </div>
+      )}
+      
+      <nav className="flex-1 overflow-y-auto p-3">
+        {menuSections.map((section, sectionIndex) => (
+          <div key={sectionIndex} className={sectionIndex > 0 ? 'mt-6' : ''}>
+            {isOpen && (
+              <p className="mb-3 px-3 text-xs font-semibold uppercase tracking-wider text-slate-400">{section.title}</p>
+            )}
+            <ul className="space-y-1">
+              {section.items.map((item) => {
+                const isActive = location.pathname === item.path;
+                const Icon = item.icon;
+                return (
+                  <li key={item.path}>
+                    <Link
+                      to={item.path}
+                      className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+                        isActive
+                          ? "bg-blue-50 text-blue-600 shadow-sm"
+                          : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+                      }`}
+                      title={!isOpen ? item.label : ''}
+                    >
+                      {isActive && (
+                        <div className="absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r bg-blue-600"></div>
+                      )}
+                      <Icon className={`h-5 w-5 flex-shrink-0 ${
+                        isActive ? "text-blue-600" : "text-slate-400 group-hover:text-slate-600"
+                      }`} />
+                      {isOpen && <span className="flex-1">{item.label}</span>}
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ))}
       </nav>
+      
+      <div className="border-t border-slate-200 p-3">
+        <div className="space-y-1">
+          <Link
+            to="/profile"
+            className={`group relative flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200 ${
+              location.pathname === '/profile'
+                ? "bg-blue-50 text-blue-600 shadow-sm"
+                : "text-slate-600 hover:bg-slate-50 hover:text-slate-900"
+            } ${
+              !isOpen ? 'justify-center' : ''
+            }`}
+            title={!isOpen ? 'Profil' : ''}
+          >
+            {location.pathname === '/profile' && (
+              <div className="absolute left-0 top-1/2 h-8 w-1 -translate-y-1/2 rounded-r bg-blue-600"></div>
+            )}
+            <FaUser className={`h-5 w-5 flex-shrink-0 ${
+              location.pathname === '/profile' ? "text-blue-600" : "text-slate-400 group-hover:text-slate-600"
+            }`} />
+            {isOpen && <span className="flex-1">Profil</span>}
+          </Link>
+          <button
+            onClick={logout}
+            className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-red-600 transition-all duration-200 hover:bg-red-50 ${
+              !isOpen ? 'justify-center' : ''
+            }`}
+            title={!isOpen ? 'Déconnexion' : ''}
+          >
+            <FaSignOutAlt className="h-5 w-5" />
+            {isOpen && <span>Déconnexion</span>}
+          </button>
+        </div>
+      </div>
     </aside>
   );
 }
